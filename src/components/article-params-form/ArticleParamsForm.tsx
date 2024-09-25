@@ -2,7 +2,6 @@ import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
 import { Select } from '../select';
 import { RadioGroup } from '../radio-group';
-import { Separator } from '../separator';
 import { Text } from 'components/text';
 
 import styles from './ArticleParamsForm.module.scss';
@@ -12,8 +11,6 @@ import {
 	defaultArticleState,
 	ArticleStateType,
 	fontFamilyOptions,
-	OptionType,
-	fontColors,
 	backgroundColors,
 	contentWidthArr,
 	fontSizeOptions,
@@ -39,10 +36,6 @@ export const ArticleParamsForm = ({ onChange, onDefault }: Props) => {
 	const toggleForm = () => {
 		setIsOpen((prev) => !prev);
 	};
-
-	function handleOptionChange(key: string, option: OptionType) {
-		setParams({ ...params, [key]: option });
-	}
 
 	useEffect(() => {
 		if (!isOpen) return;
