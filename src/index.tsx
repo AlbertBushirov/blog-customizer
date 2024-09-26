@@ -11,25 +11,25 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
-	const [style, setStyle] = useState(defaultArticleState);
+	const [savedParams, setSavedParams] = useState(defaultArticleState);
 	return (
-		<div
+		<main
 			className={clsx(styles.main)}
 			style={
 				{
-					'--font-family': style.fontFamilyOption.value,
-					'--font-size': style.fontSizeOption.value,
-					'--font-color': style.fontColor.value,
-					'--container-width': style.contentWidth.value,
-					'--bg-color': style.backgroundColor.value,
+					'--font-family': savedParams.fontFamilyOption.value,
+					'--font-size': savedParams.fontSizeOption.value,
+					'--font-color': savedParams.fontColor.value,
+					'--container-width': savedParams.contentWidth.value,
+					'--bg-color': savedParams.backgroundColor.value,
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
-				onChange={(e) => setStyle(e)}
-				onDefault={() => setStyle(defaultArticleState)}
+				onChange={(e) => setSavedParams(e)}
+				onDefault={() => setSavedParams(defaultArticleState)}
 			/>
 			<Article />
-		</div>
+		</main>
 	);
 };
 

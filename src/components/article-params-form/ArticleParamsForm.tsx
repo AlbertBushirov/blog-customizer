@@ -3,7 +3,7 @@ import { Button } from 'components/button';
 import { Select } from '../select';
 import { RadioGroup } from '../radio-group';
 import { Text } from 'components/text';
-
+import { Separator } from '../separator';
 import styles from './ArticleParamsForm.module.scss';
 import { useRef, useEffect, useState } from 'react';
 import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
@@ -12,6 +12,7 @@ import {
 	ArticleStateType,
 	fontFamilyOptions,
 	backgroundColors,
+	fontColors,
 	contentWidthArr,
 	fontSizeOptions,
 } from 'src/constants/articleProps';
@@ -29,36 +30,36 @@ export const ArticleParamsForm = ({ onChange, onDefault }: Props) => {
 	const [background, setBackground] = useState(
 		defaultArticleState.backgroundColor
 	);
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [params, setParams] = useState(defaultArticleState);
 	const sedebarRef = useRef<HTMLDivElement>(null);
 
 	const toggleForm = () => {
-		setIsOpen((prev) => !prev);
+		setIsMenuOpen((prev) => !prev);
 	};
 
 	useEffect(() => {
-		if (!isOpen) return;
+		if (!isMenuOpen) return;
 
 		const handleCloseClick = (e: MouseEvent) => {
 			if (
 				sedebarRef.current &&
 				!sedebarRef.current.contains(e.target as Node)
 			) {
-				setIsOpen(false);
+				setIsMenuOpen(false);
 			}
 		};
 		document.addEventListener('mousedown', handleCloseClick);
 		return () => {
 			document.removeEventListener('mousedown', handleCloseClick);
 		};
-	}, [isOpen, sedebarRef]);
+	}, [isMenuOpen, sedebarRef]);
 
 	useOutsideClickClose({
-		isOpen,
+		isMenuOpen,
 		rootRef: sedebarRef,
-		onClose: () => setIsOpen(false),
-		onChange: setIsOpen,
+		onClose: () => setIsMenuOpen(false),
+		onChange: setIsMenuOpen,
 	});
 
 	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -70,7 +71,7 @@ export const ArticleParamsForm = ({ onChange, onDefault }: Props) => {
 			backgroundColor: background,
 			contentWidth: width,
 		});
-		setIsOpen(false);
+		setIsMenuOpen(false);
 	};
 
 	const onReset = () => {
@@ -81,18 +82,18 @@ export const ArticleParamsForm = ({ onChange, onDefault }: Props) => {
 		setWidth(defaultArticleState.contentWidth);
 
 		onDefault();
-		setIsOpen(false);
+		setIsMenuOpen(false);
 	};
 
 	return (
 		<>
 			<div ref={sedebarRef}>
-				<ArrowButton onClick={toggleForm} isOpen={isOpen} />
-				{isOpen && (
+				<ArrowButton onClick={toggleForm} isOpen={isMenuOpen} />
+				{isMenuOpen && (
 					<aside
 						ref={sedebarRef}
 						className={styles.container}
-						style={{ transform: isOpen ? 'translate(0)' : '' }}>
+						style={{ transform: isMenuOpen ? 'translate(0)' : '' }}>
 						<form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
 							<Text as='h2' size={31} weight={800} align='left' uppercase>
 								Задайте параметры
@@ -110,6 +111,13 @@ export const ArticleParamsForm = ({ onChange, onDefault }: Props) => {
 								onChange={setSize}
 								options={fontSizeOptions}
 								title='Размер шрифта'></RadioGroup>
+							<Select
+								selected={color}
+								onChange={setColor}
+								options={fontColors}
+								title='Цвет шрифта'></Select>
+							<Separator />
+
 							{/* Цвет фона */}
 							<Select
 								selected={background}
