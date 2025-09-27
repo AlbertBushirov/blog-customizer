@@ -5,7 +5,7 @@ import { FontFamiliesClasses } from 'src/constants/articleProps';
 import styles from './index.module.scss';
 
 type TextProps = {
-	/** Сам текст для вывода */
+	/* Сам текст для вывода */
 	children: ReactNode;
 	/** Тэг которым отрендерить текст */
 	as?: ElementType;
